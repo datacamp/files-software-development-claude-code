@@ -1,12 +1,13 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Edit",
+        "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "cd $CLAUDE_PROJECT_DIR && python3 -m pytest --tb=short -q"
+            "command": "echo \"[$(date '+%H:%M:%S')] Hook fired: file was modified\" >> /home/repl/music-analytics-api-with-hooks/hook.log"
           }
         ]
       }

@@ -2,11 +2,11 @@
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Write|Edit|Update",
+        "matcher": "Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "cd $CLAUDE_PROJECT_DIR && python -m pytest --tb=short -q"
+            "command": "cd $CLAUDE_PROJECT_DIR && python3 -m pytest --tb=short -q"
           }
         ]
       }

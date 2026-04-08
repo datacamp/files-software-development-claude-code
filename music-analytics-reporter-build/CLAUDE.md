@@ -25,3 +25,6 @@ python3 reporter.py --artist "Aerosmith" --format csv --output report.csv
 ```bash
 python3 -m pytest
 ```
+## Important
+
+A detailed plan already exists in @PLAN.md. Use it to implement `reporter.py` and `test_reporter.py`. Do not re-plan.

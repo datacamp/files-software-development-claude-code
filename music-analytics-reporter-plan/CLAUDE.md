@@ -13,6 +13,20 @@ A CLI tool for generating reports from the Chinook music database.
 The Chinook database contains artists, albums, tracks, genres, and invoice data.
 Use MCP to query the database directly.
 
+## CLI Requirements
+
+- `--artist` (required): artist name, case-insensitive
+- `--format` (required): `json` or `csv`
+- `--output` (required): output file path
+- `--db` (optional): database path, defaults to `chinook.db`
+
+Report must include album/track counts, genres, total revenue, and per-album breakdown.
+Use `sqlite3` directly — no ORM.
+
+## Important
+
+Do not write any code or create any files. Produce a plan only.
+
 ## CLI Usage
 
 ```bash

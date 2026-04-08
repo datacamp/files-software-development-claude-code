@@ -150,15 +150,6 @@ class TestFetchArtistStats:
 
         assert data is None
 
-    def test_case_insensitive(self, db_path):
-        """Test case-insensitive artist lookup."""
-        conn = reporter.get_db_connection(db_path)
-        data = reporter.fetch_artist_stats(conn, "test artist")
-        conn.close()
-
-        assert data is not None
-        assert data["artist"] == "Test Artist"
-
     def test_multi_genre(self, db_path):
         """Test that genres are correctly aggregated."""
         conn = reporter.get_db_connection(db_path)

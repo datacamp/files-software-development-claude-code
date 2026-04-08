@@ -7,7 +7,7 @@ from pathlib import Path
 db_bp = Blueprint('db', __name__)
 
 # Path to Chinook database
-DB_PATH = Path(__file__).parent.parent / 'chinook.db'
+DB_PATH = Path(__file__).parent / 'chinook.db'
 
 
 def get_db_connection() -> sqlite3.Connection:

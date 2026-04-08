@@ -16,6 +16,15 @@ Use MCP to query the database directly.
 ## CLI Usage
 
 ```bash
-python reporter.py --artist "AC/DC" --format json --output report.json
-python reporter.py --artist "Aerosmith" --format csv --output report.csv
+python3 reporter.py --artist "AC/DC" --format json --output report.json
+python3 reporter.py --artist "Aerosmith" --format csv --output report.csv
 ```
+
+## Running tests
+
+```bash
+python3 -m pytest
+```
+## Important
+
+A detailed plan already exists in @PLAN.md. Use it to implement `reporter.py` and `test_reporter.py`. Do not re-plan.

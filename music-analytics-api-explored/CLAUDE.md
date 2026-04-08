@@ -16,7 +16,7 @@ A Flask-based REST API for music data analytics, providing endpoints for artists
 ```bash
 flask run
 # or
-python app.py
+python3 app.py
 ```
 
 ## API Endpoints

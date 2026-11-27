@@ -2,8 +2,43 @@
 
 from flask import jsonify, request, session
 from app import app
-from models import music_store
+from models import Album, music_store
 from analytics import calculate_album_stats, calculate_average_tracks
+
+POPULARITY_PER_TRACK = 5  # Simple popularity metric: each track adds 5 points
+
+
+def prepare_album_stats_data(albums: list[Album]) -> list[dict]:
+    """Convert albums into the dicts expected by calculate_album_stats.
+
+    Args:
+        albums: Album objects from the music store.
+
+    Returns:
+        One dict per album with album_id, title, track_count and a popularity
+        score of track_count * POPULARITY_PER_TRACK.
+    """
+    return [
+        {
+            'album_id': a.album_id,
+            'title': a.title,
+            'track_count': a.track_count,
+            'popularity': a.track_count * POPULARITY_PER_TRACK
+        }
+        for a in albums
+    ]
+
+
+def prepare_track_count_data(albums: list[Album]) -> list[dict]:
+    """Convert albums into the dicts expected by calculate_average_tracks.
+
+    Args:
+        albums: Album objects from the music store.
+
+    Returns:
+        One dict per album containing only its track_count.
+    """
+    return [{'track_count': a.track_count} for a in albums]
 
 
 @app.route('/artists', methods=['GET'])
@@ -39,16 +74,7 @@ def get_albums():
 @app.route('/stats/albums', methods=['GET'])
 def get_album_stats():
     """Return album statistics."""
-    albums = music_store.get_all_albums()
-    album_dicts = [
-        {
-            'album_id': a.album_id,
-            'title': a.title,
-            'track_count': a.track_count,
-            'popularity': a.track_count * 5  # Simple popularity metric
-        }
-        for a in albums
-    ]
+    album_dicts = prepare_album_stats_data(music_store.get_all_albums())
     stats = calculate_album_stats(album_dicts)
     return jsonify(stats)
 
@@ -56,7 +82,6 @@ def get_album_stats():
 @app.route('/stats/average-tracks', methods=['GET'])
 def get_average_tracks():
     """Return average tracks per album."""
-    albums = music_store.get_all_albums()
-    album_dicts = [{'track_count': a.track_count} for a in albums]
+    album_dicts = prepare_track_count_data(music_store.get_all_albums())
     avg = calculate_average_tracks(album_dicts)
     return jsonify({'average_tracks': avg})

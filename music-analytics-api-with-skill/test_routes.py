@@ -13,6 +13,7 @@ from flask.testing import FlaskClient
 
 from app import app
 from models import Album, Artist, MusicStore
+from routes import prepare_album_stats_data, prepare_track_count_data
 
 
 @pytest.fixture
@@ -286,3 +287,33 @@ def test_average_tracks_empty_store_returns_zero(
     response = client.get("/stats/average-tracks")
 
     assert response.get_json() == {"average_tracks": 0}
+
+
+# --- Data preparation helpers ------------------------------------------------
+
+
+def test_prepare_album_stats_data_derives_popularity() -> None:
+    """Each album becomes a dict with popularity = track_count * 5."""
+    result = prepare_album_stats_data([make_album(1, 10), make_album(2, 0)])
+
+    assert result == [
+        {"album_id": 1, "title": "Album 1", "track_count": 10, "popularity": 50},
+        {"album_id": 2, "title": "Album 2", "track_count": 0, "popularity": 0},
+    ]
+
+
+def test_prepare_album_stats_data_empty() -> None:
+    """No albums gives an empty list."""
+    assert prepare_album_stats_data([]) == []
+
+
+def test_prepare_track_count_data_keeps_only_track_count() -> None:
+    """Only track_count is passed on; ids and titles are dropped."""
+    result = prepare_track_count_data([make_album(1, 10), make_album(2, 12)])
+
+    assert result == [{"track_count": 10}, {"track_count": 12}]
+
+
+def test_prepare_track_count_data_empty() -> None:
+    """No albums gives an empty list."""
+    assert prepare_track_count_data([]) == []

@@ -1,0 +1,44 @@
+# House style for the format-code skill. Used via `ruff --config <this file>`;
+# the repo itself has no ruff config, so this file is the single source of truth.
+target-version = "py312"
+line-length = 88
+
+[format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+
+[lint]
+select = [
+    "E", "W",   # pycodestyle (PEP 8)
+    "F",        # pyflakes: unused imports/variables, undefined names
+    "I",        # import sorting
+    "N",        # PEP 8 naming
+    "UP",       # modern syntax for Python 3.12
+    "B",        # likely bugs (mutable defaults, etc.)
+    "D",        # docstrings on public functions, classes and methods
+    "ANN",      # type hints on parameters and return values
+]
+ignore = [
+    "E501",     # line length is handled by the formatter
+    "D105",     # magic methods (__repr__, ...) don't need docstrings
+    "D107",     # __init__ is documented in the class docstring
+    "ANN401",   # allow typing.Any where it is genuinely needed
+]
+
+[lint.isort]
+# Modules in the exercise folders import each other by bare name.
+known-first-party = [
+    "analytics", "app", "config", "db_routes", "middleware", "models", "reporter", "routes",
+]
+
+[lint.pydocstyle]
+convention = "google"   # Args:/Returns:/Raises: sections, as used in db_routes.py and reporter.py
+
+[lint.per-file-ignores]
+# Intentional circular import: app.py imports routes at the bottom, after `app` exists.
+"**/app.py" = ["E402", "F401", "F403"]
+"**/routes.py" = ["F403", "F405"]
+# Tests: names describe the behaviour; hints and docstrings are optional.
+"**/test_*.py" = ["D", "ANN"]
+"**/conftest.py" = ["D", "ANN"]

@@ -10,7 +10,7 @@ Most exercise folders have their own `CLAUDE.md` (and some have `.claude/` agent
 
 ## Environment and commands
 
-Dependencies are declared once at the repo root (`pyproject.toml`, `uv.lock`, Python 3.12). There is no per-folder dependency file, no linter config and no build step.
+Dependencies are declared once at the repo root (`pyproject.toml`, `uv.lock`, Python 3.12). There is no per-folder dependency file and no build step. Code style is defined by the `format-code` skill (`.claude/skills/format-code/`: a pinned ruff config plus `scripts/format.sh`); there is no other linter config.
 
 ```bash
 uv sync                      # install deps into .venv at the repo root

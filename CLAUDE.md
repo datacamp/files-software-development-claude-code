@@ -46,7 +46,7 @@ All `music-analytics-api*` folders share one Flask layout:
 
 The `-with-db*` stages add the Chinook database:
 
-- `db_routes.py` defines a Blueprint `db_bp` that queries the folder's own `chinook.db` with raw `sqlite3` (tables `Artist`, `Album`, … in PascalCase). It is registered in `app.py` **before** `from routes import *`, so its `/artists/<id>/albums` takes precedence over the in-memory route of the same path. Because of this, the mock-based `TestGetArtistAlbums` tests fail in `-with-db-routed` and `-with-db-routed-validated`.
+- `db_routes.py` defines a Blueprint `db_bp` that queries the folder's own `chinook.db` with raw `sqlite3`. Tables are lowercase plurals (`artists`, `albums`, `tracks`, `invoice_items`, …) with PascalCase columns (`ArtistId`, `Title`). `-with-db-routed-validated/db_routes.py` queries `Artist`/`Album` instead, so its endpoint returns a 500 "no such table" error. It is registered in `app.py` **before** `from routes import *`, so its `/artists/<id>/albums` takes precedence over the in-memory route of the same path. Because of this, the mock-based `TestGetArtistAlbums` tests fail in `-with-db-routed` and `-with-db-routed-validated`.
 - `-with-db-routed-validated` adds Pydantic response models (`AlbumResponse`, `AlbumsListResponse`) in `models.py`, serialised with `model_dump(by_alias=True)`.
 
 ## Reporter folders
